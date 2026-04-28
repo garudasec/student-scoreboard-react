@@ -100,7 +100,6 @@ h1 span {
   50% { box-shadow: 0 0 0 8px rgba(34, 255, 153, 0); }
 }
 
-/* UPDATED LAYOUT */
 .main-content {
   display: grid;
   grid-template-columns: 310px 1fr;
@@ -129,7 +128,7 @@ h1 span {
   overflow: hidden;
   box-shadow: var(--shadow-sm);
   width: 100%;
-  height: 100%; /* Ensures panel stretches */
+  height: 100%;
 }
 
 .panel:hover {
