@@ -3,7 +3,6 @@ import StudentRow from "./StudentRow";
 function StudentTable({ students, updateScore, total, passed, avg }) {
   return (
     <div>
-      {/* Stats Section */}
       <div className="stats">
         <div className="stat-box">
           <p>TOTAL</p>
@@ -21,7 +20,6 @@ function StudentTable({ students, updateScore, total, passed, avg }) {
         </div>
       </div>
 
-      {/* Table Section */}
       <div className="card">
         <h3>Student Records</h3>
 

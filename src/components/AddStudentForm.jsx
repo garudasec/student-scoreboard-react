@@ -7,19 +7,17 @@ function AddStudentForm({ addStudent }) {
   function handleSubmit(e) {
     e.preventDefault();
 
-    // basic validation
     if (name.trim() === "" || score === "") {
       alert("Please enter valid data");
       return;
     }
 
-    // check score range
     if (score < 0 || score > 100) {
       alert("Score should be between 0 and 100");
       return;
     }
 
-    console.log("student added"); // small human touch
+    console.log("student added"); 
 
     addStudent(name, score);
 

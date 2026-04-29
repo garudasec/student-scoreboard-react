@@ -1,7 +1,5 @@
 function StudentRow({ student, updateScore }) {
   const { id, name, score } = student;
-
-  // check pass or fail
   let status = "Fail";
   if (score >= 40) {
     status = "Pass";

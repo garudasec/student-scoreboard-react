@@ -11,7 +11,6 @@ function App() {
     { id: 4, name: "Sanya", score: 89 }
   ]);
 
-  // function to add new student
   function addStudent(name, score) {
     console.log("adding student...");
 
@@ -24,7 +23,6 @@ function App() {
     setStudents([...students, newStudent]);
   }
 
-  // function to update score
   function updateScore(id, newScore) {
     console.log("updating score...");
 
@@ -44,20 +42,17 @@ function App() {
     setStudents(updated);
   }
 
-  // calculate total marks
   let totalMarks = 0;
   for (let i = 0; i < students.length; i++) {
     totalMarks = totalMarks + students[i].score;
   }
 
-  // calculate average
   let avg = 0;
   if (students.length > 0) {
     avg = totalMarks / students.length;
     avg = avg.toFixed(1);
   }
 
-  // calculate passed students
   let passed = 0;
   for (let i = 0; i < students.length; i++) {
     if (students[i].score >= 40) {
