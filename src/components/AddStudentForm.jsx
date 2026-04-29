@@ -1,46 +1,47 @@
 import React, { useState } from 'react';
 
-const AddStudentForm = ({ onAdd }) => {
+function AddStudentForm({ onAdd }) {
+  // Local state for the input fields
   const [name, setName] = useState('');
   const [score, setScore] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!name.trim() || score === '') return;
+    
+    // Validation to make sure fields aren't empty
+    if (name.trim() === '' || score === '') {
+      alert("Please enter both name and score");
+      return;
+    }
+
+    // Calling the parent function to add the student
     onAdd(name, score);
+
+    // Requirement: Clear form after submission
     setName('');
     setScore('');
   };
 
   return (
-    <form className="add-form" onSubmit={handleSubmit}>
-      <div className="input-group">
-        <label className="input-label">Student Name</label>
-        <input
-          type="text"
-          placeholder="e.g. Priya Sharma"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
+    <div className="add-form">
+      <h3>Add New Student</h3>
+      <form onSubmit={handleSubmit}>
+        <input 
+          type="text" 
+          placeholder="Student Name" 
+          value={name} 
+          onChange={(e) => setName(e.target.value)} 
         />
-      </div>
-      <div className="input-group">
-        <label className="input-label">Score (0–100)</label>
-        <input
-          type="number"
-          placeholder="e.g. 76"
-          value={score}
-          min="0"
-          max="100"
-          onChange={(e) => setScore(e.target.value)}
-          required
+        <input 
+          type="number" 
+          placeholder="Score" 
+          value={score} 
+          onChange={(e) => setScore(e.target.value)} 
         />
-      </div>
-      <button type="submit" className="btn-primary">
-        <span>+ Add Student</span>
-      </button>
-    </form>
+        <button type="submit">Add Student</button>
+      </form>
+    </div>
   );
-};
+}
 
 export default AddStudentForm;
