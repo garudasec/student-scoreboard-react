@@ -1,18 +1,9 @@
-import React from 'react';
-
-const Header = () => {
+function Header() {
   return (
-    <header className="main-header">
-      <div className="header-left">
-        <span className="header-badge"></span>
-        <h1>Student <span>Scoreboard</span></h1>
-      </div>
-      <div className="header-status">
-        <span className="status-dot"></span>
-        <span>Live</span>
-      </div>
-    </header>
+    <h1>
+      Student <span className="highlight">Scoreboard</span>
+    </h1>
   );
-};
+}
 
 export default Header;

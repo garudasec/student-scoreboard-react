@@ -1,38 +1,57 @@
-import React from 'react';
-import StudentRow from './StudentRow';
+import StudentRow from "./StudentRow";
 
-const StudentTable = ({ students, onUpdateScore }) => {
+function StudentTable({ students, updateScore, total, passed, avg }) {
   return (
-    <div className="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>Student Name</th>
-            <th>Score</th>
-            <th>Status</th>
-            <th>Update</th>
-          </tr>
-        </thead>
-        <tbody>
-          {students.length === 0 ? (
+    <div>
+      {/* Stats Section */}
+      <div className="stats">
+        <div className="stat-box">
+          <p>TOTAL</p>
+          <h2>{total}</h2>
+        </div>
+
+        <div className="stat-box">
+          <p>PASSED</p>
+          <h2>{passed}</h2>
+        </div>
+
+        <div className="stat-box">
+          <p>AVG</p>
+          <h2>{avg}</h2>
+        </div>
+      </div>
+
+      {/* Table Section */}
+      <div className="card">
+        <h3>Student Records</h3>
+
+        <table>
+          <thead>
             <tr>
-              <td colSpan="4" style={{ textAlign: 'center', padding: '40px', color: 'var(--text-dim)', letterSpacing: '0.15em', fontSize: '0.75rem' }}>
-                NO RECORDS FOUND
-              </td>
+              <th>Name</th>
+              <th>Score</th>
+              <th>Status</th>
+              <th>Update</th>
             </tr>
-          ) : (
-            students.map((student) => (
+          </thead>
+
+          <tbody>
+            {students.map((s) => (
               <StudentRow
-                key={student.id}
-                student={student}
-                onUpdateScore={onUpdateScore}
+                key={s.id}
+                student={s}
+                updateScore={updateScore}
               />
-            ))
-          )}
-        </tbody>
-      </table>
+            ))}
+          </tbody>
+        </table>
+
+        <p className="small-text">
+          {students.length} records loaded
+        </p>
+      </div>
     </div>
   );
-};
+}
 
 export default StudentTable;

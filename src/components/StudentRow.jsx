@@ -1,38 +1,34 @@
-import React, { useState } from 'react';
+function StudentRow({ student, updateScore }) {
+  const { id, name, score } = student;
 
-const StudentRow = ({ student, onUpdateScore }) => {
-  const [tempScore, setTempScore] = useState(student.score);
-  const isPass = student.score >= 40;
+  // check pass or fail
+  let status = "Fail";
+  if (score >= 40) {
+    status = "Pass";
+  }
+
+  function handleChange(e) {
+    updateScore(id, e.target.value);
+  }
 
   return (
     <tr>
-      <td className="name-cell">{student.name}</td>
-      <td><span className="score-highlight">{student.score}</span></td>
-      <td>
-        <span className={isPass ? 'badge-pass' : 'badge-fail'}>
-          <span className="badge-dot"></span>
-          {isPass ? 'PASS' : 'FAIL'}
-        </span>
+      <td>{name}</td>
+      <td>{score}</td>
+
+      <td className={status === "Pass" ? "pass" : "fail"}>
+        {status}
       </td>
+
       <td>
-        <div className="update-cell">
-          <input
-            type="number"
-            value={tempScore}
-            min="0"
-            max="100"
-            onChange={(e) => setTempScore(e.target.value)}
-          />
-          <button
-            className="btn-save"
-            onClick={() => onUpdateScore(student.id, tempScore)}
-          >
-            Save
-          </button>
-        </div>
+        <input
+          type="number"
+          value={score}
+          onChange={(e) => handleChange(e)}
+        />
       </td>
     </tr>
   );
-};
+}
 
 export default StudentRow;

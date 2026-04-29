@@ -1,44 +1,52 @@
-import React, { useState } from 'react';
+import { useState } from "react";
 
-function AddStudentForm({ onAdd }) {
-  // Local state for the input fields
-  const [name, setName] = useState('');
-  const [score, setScore] = useState('');
+function AddStudentForm({ addStudent }) {
+  const [name, setName] = useState("");
+  const [score, setScore] = useState("");
 
-  const handleSubmit = (e) => {
+  function handleSubmit(e) {
     e.preventDefault();
-    
-    // Validation to make sure fields aren't empty
-    if (name.trim() === '' || score === '') {
-      alert("Please enter both name and score");
+
+    // basic validation
+    if (name.trim() === "" || score === "") {
+      alert("Please enter valid data");
       return;
     }
 
-    // Calling the parent function to add the student
-    onAdd(name, score);
+    // check score range
+    if (score < 0 || score > 100) {
+      alert("Score should be between 0 and 100");
+      return;
+    }
 
-    // Requirement: Clear form after submission
-    setName('');
-    setScore('');
-  };
+    console.log("student added"); // small human touch
+
+    addStudent(name, score);
+
+    setName("");
+    setScore("");
+  }
 
   return (
-    <div className="add-form">
-      <h3>Add New Student</h3>
+    <div className="card">
+      <h3>Add Student</h3>
+
       <form onSubmit={handleSubmit}>
-        <input 
-          type="text" 
-          placeholder="Student Name" 
-          value={name} 
-          onChange={(e) => setName(e.target.value)} 
+        <input
+          type="text"
+          placeholder="enter name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
-        <input 
-          type="number" 
-          placeholder="Score" 
-          value={score} 
-          onChange={(e) => setScore(e.target.value)} 
+
+        <input
+          type="number"
+          placeholder="enter score"
+          value={score}
+          onChange={(e) => setScore(e.target.value)}
         />
-        <button type="submit">Add Student</button>
+
+        <button type="submit">Add</button>
       </form>
     </div>
   );

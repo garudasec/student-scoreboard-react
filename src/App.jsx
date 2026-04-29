@@ -1,75 +1,88 @@
-import React, { useState } from 'react';
-import Header from './components/Header';
-import AddStudentForm from './components/AddStudentForm';
-import StudentTable from './components/StudentTable';
-import './App.css';
+import { useState } from "react";
+import Header from "./components/Header";
+import StudentTable from "./components/StudentTable";
+import AddStudentForm from "./components/AddStudentForm";
 
 function App() {
   const [students, setStudents] = useState([
     { id: 1, name: "Aman", score: 78 },
     { id: 2, name: "Riya", score: 45 },
     { id: 3, name: "Ishaan", score: 32 },
-    { id: 4, name: "Sanya", score: 89 },
+    { id: 4, name: "Sanya", score: 89 }
   ]);
 
-  const total = students.length;
-  const passed = students.filter(s => s.score >= 40).length;
-  const avg = total > 0 ? Math.round(students.reduce((acc, s) => acc + s.score, 0) / total) : 0;
+  // function to add new student
+  function addStudent(name, score) {
+    console.log("adding student...");
 
-  const addStudent = (name, score) => {
-    setStudents([...students, { id: Date.now(), name, score: parseInt(score) || 0 }]);
-  };
+    const newStudent = {
+      id: students.length + 1,
+      name: name,
+      score: Number(score)
+    };
 
-  const updateScore = (id, newScore) => {
-    setStudents(students.map(s => s.id === id ? { ...s, score: parseInt(newScore) || 0 } : s));
-  };
+    setStudents([...students, newStudent]);
+  }
+
+  // function to update score
+  function updateScore(id, newScore) {
+    console.log("updating score...");
+
+    let updated = [];
+
+    for (let i = 0; i < students.length; i++) {
+      if (students[i].id === id) {
+        updated.push({
+          ...students[i],
+          score: Number(newScore)
+        });
+      } else {
+        updated.push(students[i]);
+      }
+    }
+
+    setStudents(updated);
+  }
+
+  // calculate total marks
+  let totalMarks = 0;
+  for (let i = 0; i < students.length; i++) {
+    totalMarks = totalMarks + students[i].score;
+  }
+
+  // calculate average
+  let avg = 0;
+  if (students.length > 0) {
+    avg = totalMarks / students.length;
+    avg = avg.toFixed(1);
+  }
+
+  // calculate passed students
+  let passed = 0;
+  for (let i = 0; i < students.length; i++) {
+    if (students[i].score >= 40) {
+      passed++;
+    }
+  }
 
   return (
-    <div className="terminal-app">
+    <div className="container">
       <Header />
-      <div className="main-content">
 
-        <aside className="sidebar">
-          <div className="stats-grid">
-            <div className="stat-card">
-              <div className="stat-label">Total</div>
-              <div className="stat-value">{total}</div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-label">Passed</div>
-              <div className="stat-value">{passed}</div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-label">Avg</div>
-              <div className="stat-value">{avg}</div>
-            </div>
-          </div>
-
-          <div className="panel add-form-panel">
-            <div className="panel-header">
-              <div className="panel-header-icon"></div>
-              <span className="panel-title">Add Student</span>
-            </div>
-            <div style={{ padding: '16px' }}>
-              <AddStudentForm onAdd={addStudent} />
-            </div>
-          </div>
-        </aside>
-
-        <div className="content-area">
-          <div className="panel table-panel">
-            <div className="panel-header">
-              <div className="panel-header-icon"></div>
-              <span className="panel-title">Student Records</span>
-            </div>
-            <StudentTable students={students} onUpdateScore={updateScore} />
-            <div className="footer-bar">
-              <span>{total} record{total !== 1 ? 's' : ''} loaded</span>
-              <span>{passed} / {total} passed</span>
-            </div>
-          </div>
+      <div className="main">
+        <div className="left">
+          <AddStudentForm addStudent={addStudent} />
         </div>
 
+        <div className="right">
+          <StudentTable
+            students={students}
+            updateScore={updateScore}
+            total={students.length}
+            passed={passed}
+            avg={avg}
+          />
+        </div>
       </div>
     </div>
   );
