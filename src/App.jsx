@@ -2,6 +2,7 @@ import { useState } from "react";
 import Header from "./components/Header";
 import StudentTable from "./components/StudentTable";
 import AddStudentForm from "./components/AddStudentForm";
+import "./App.css";
 
 function App() {
   const [students, setStudents] = useState([
@@ -11,71 +12,80 @@ function App() {
     { id: 4, name: "Sanya", score: 89 }
   ]);
 
-  function addStudent(name, score) {
-    console.log("adding student...");
-
+  const addStudent = (name, score) => {
     const newStudent = {
-      id: students.length + 1,
+      id: Date.now(),
       name: name,
-      score: Number(score)
+      score: score === "" ? "" : Number(score)
     };
 
     setStudents([...students, newStudent]);
-  }
+  };
 
-  function updateScore(id, newScore) {
-    console.log("updating score...");
+  const updateScore = (id, newScore) => {
+    setStudents(
+      students.map((s) =>
+        s.id === id
+          ? {
+              ...s,
+              score: newScore === "" ? "" : Number(newScore)
+            }
+          : s
+      )
+    );
+  };
 
-    let updated = [];
+  const total = students.length;
 
-    for (let i = 0; i < students.length; i++) {
-      if (students[i].id === id) {
-        updated.push({
-          ...students[i],
-          score: Number(newScore)
-        });
-      } else {
-        updated.push(students[i]);
-      }
-    }
+  const passed = students.filter(
+    (s) => s.score !== "" && s.score >= 40
+  ).length;
 
-    setStudents(updated);
-  }
-
-  let totalMarks = 0;
-  for (let i = 0; i < students.length; i++) {
-    totalMarks = totalMarks + students[i].score;
-  }
-
-  let avg = 0;
-  if (students.length > 0) {
-    avg = totalMarks / students.length;
-    avg = avg.toFixed(1);
-  }
-
-  let passed = 0;
-  for (let i = 0; i < students.length; i++) {
-    if (students[i].score >= 40) {
-      passed++;
-    }
-  }
+  const avg =
+    total > 0
+      ? (
+          students.reduce(
+            (acc, s) => acc + (s.score === "" ? 0 : s.score),
+            0
+          ) / total
+        ).toFixed(1)
+      : 0;
 
   return (
     <div className="container">
-      <Header />
+      <Header title="Student Scoreboard" />
 
-      <div className="main">
-        <div className="left">
+      <div className="main-content">
+        <div className="left-panel">
+          <div className="stats-row">
+            <div className="stat-box">
+              <span className="stat-label">Total Students</span>
+              <span className="stat-value">{total}</span>
+            </div>
+
+            <div className="stat-box">
+              <span className="stat-label">Passed</span>
+              <span
+                className="stat-value"
+                style={{ color: "var(--pass)" }}
+              >
+                {passed}
+              </span>
+            </div>
+
+            <div className="stat-box">
+              <span className="stat-label">Average</span>
+              <span className="stat-value">{avg}</span>
+            </div>
+          </div>
+
           <AddStudentForm addStudent={addStudent} />
         </div>
 
-        <div className="right">
+        <div className="right-panel">
           <StudentTable
             students={students}
             updateScore={updateScore}
-            total={students.length}
-            passed={passed}
-            avg={avg}
           />
         </div>
       </div>
